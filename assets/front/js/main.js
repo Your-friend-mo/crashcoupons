@@ -186,30 +186,37 @@ class LiveSearch {
         this.form = document.getElementById('searchForm');
         this.input = document.getElementById('searchInput');
         this.dropdown = document.getElementById('searchDropdown');
+        if (!this.form || !this.input || !this.dropdown) return;
         this.loader = this.form.querySelector('.search-loader');
-        this.searchIcon = this.loader.querySelector('.bi-search');
-        this.spinner = this.loader.querySelector('.spinner-border');
+        this.searchIcon = this.loader ? this.loader.querySelector('.bi-search') : null;
+        this.spinner = this.loader ? this.loader.querySelector('.spinner-border') : null;
         
         this.debounceTimeout = null;
-        this.minChars = 3;
+        this.minChars = 2;
         this.baseUrl = document.querySelector('meta[name="base-url"]')?.content || window.location.origin;
         this.activeItem = null;
         this.initialize();
-        
     }
 
     initialize() {
         // Show loader and search icon initially
-        this.loader.classList.remove('d-none');
+        if (this.loader) this.loader.classList.remove('d-none');
 
         // Search input handler with debounce
         this.input.addEventListener('input', utils.debounce(() => {
             this.performSearch();
         }, 300));
 
-        // Prevent form submission
+        // Submit handler: filter catalog if on homepage, or redirect with ?q=
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
+            const query = this.input.value.trim();
+            if (window.CatalogUI) {
+                window.CatalogUI.filterBySearch(query);
+                this.hideDropdown();
+            } else if (query) {
+                window.location.href = '/?q=' + encodeURIComponent(query);
+            }
         });
 
         // Close dropdown when clicking outside
@@ -290,15 +297,15 @@ class LiveSearch {
     }
 
     showLoading() {
-        this.loader.classList.add('is-searching');
-        this.spinner.classList.remove('d-none');
-        this.searchIcon.classList.add('d-none');
+        if (this.loader) this.loader.classList.add('is-searching');
+        if (this.spinner) this.spinner.classList.remove('d-none');
+        if (this.searchIcon) this.searchIcon.classList.add('d-none');
     }
 
     hideLoading() {
-        this.loader.classList.remove('is-searching');
-        this.spinner.classList.add('d-none');
-        this.searchIcon.classList.remove('d-none');
+        if (this.loader) this.loader.classList.remove('is-searching');
+        if (this.spinner) this.spinner.classList.add('d-none');
+        if (this.searchIcon) this.searchIcon.classList.remove('d-none');
     }
 
     showError() {
@@ -312,13 +319,15 @@ class LiveSearch {
 
     updateDropdown(data, query) {
         const { brands = [], coupons = [] } = data;
+        const noResultsTitle = window.searchTranslations?.noResultsTitle || 'No Results Found';
+        const noResultsDesc = window.searchTranslations?.noResultsDesc || 'Try adjusting your search terms';
         
         if (brands.length === 0 && coupons.length === 0) {
             this.dropdown.innerHTML = `
                 <div class="search-empty">
                     <i class="bi bi-search"></i>
-                    <p class="m-0 text-third">${window.searchTranslations.noResultsTitle}</p>
-                    <p class="small text-third mt-1">${window.searchTranslations.noResultsDesc}</p>
+                    <p class="m-0 text-third">${noResultsTitle}</p>
+                    <p class="small text-third mt-1">${noResultsDesc}</p>
                 </div>`;
             this.dropdown.classList.add('show');
             return;
@@ -363,6 +372,8 @@ class LiveSearch {
                 const brandId = parseInt(item.dataset.brandId, 10);
                 if (window.CatalogUI && !isNaN(brandId)) {
                     window.CatalogUI.filterByBrand(brandId);
+                } else if (!isNaN(brandId)) {
+                    window.location.href = '/?brand=' + brandId;
                 }
                 this.hideDropdown();
             });
@@ -375,6 +386,8 @@ class LiveSearch {
                 e.preventDefault();
                 if (window.CatalogUI) {
                     window.CatalogUI.filterBySearch(query);
+                } else {
+                    window.location.href = '/?q=' + encodeURIComponent(query);
                 }
                 this.hideDropdown();
             });
@@ -386,7 +399,11 @@ class LiveSearch {
                 e.preventDefault();
                 const couponId = item.dataset.couponId;
                 // Open the coupon modal
-                window.Alpine.store('couponModal').open(parseInt(couponId));
+                if (window.Alpine && window.Alpine.store('couponModal')) {
+                    window.Alpine.store('couponModal').open(parseInt(couponId));
+                } else {
+                    window.location.href = '/?coupon=' + couponId;
+                }
                 // Hide the search dropdown
                 this.hideDropdown();
             });
@@ -472,6 +489,8 @@ class LiveSearch {
                     } else if (window.CatalogUI && this.input.value.trim().length > 0) {
                         window.CatalogUI.filterBySearch(this.input.value.trim());
                         this.hideDropdown();
+                    } else if (this.input.value.trim().length > 0) {
+                        window.location.href = '/?q=' + encodeURIComponent(this.input.value.trim());
                     }
                     break;
                 

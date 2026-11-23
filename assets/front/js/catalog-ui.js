@@ -313,6 +313,18 @@
         // Wire initial pagination links on page 1
         renderPagination(getActiveIds().length, 1);
 
+        // Handle URL search/brand query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const qParam = urlParams.get('q');
+        const brandParam = urlParams.get('brand');
+        if (qParam) {
+            const searchInput = document.querySelector('#searchInput');
+            if (searchInput) searchInput.value = qParam;
+            window.CatalogUI.filterBySearch(qParam);
+        } else if (brandParam && !isNaN(parseInt(brandParam, 10))) {
+            window.CatalogUI.filterByBrand(parseInt(brandParam, 10));
+        }
+
         // Wire Popular Categories / footer brand links
         document.querySelectorAll('a[href^="#brand-"]').forEach(a => {
             const match = a.getAttribute('href').match(/^#brand-(\d+)/);

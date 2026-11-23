@@ -52,6 +52,8 @@ const modalOverlayMatch = indexHtml.match(/<!-- Alpine\.js Modal Overlay -->[\s\
 let modalMarkup = '';
 if (modalOverlayMatch) {
     modalMarkup = modalOverlayMatch[0];
+    modalMarkup = modalMarkup.replace(/<script src="[^"]*main\.js"><\/script>/gi, '');
+    modalMarkup = modalMarkup.replace(/<script src="[^"]*catalog-ui\.js"><\/script>/gi, '');
 }
 
 // Extract script head for modal
@@ -319,8 +321,17 @@ brandList.forEach(brand => {
                         <img src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" class="theme-logo" data-light-src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" data-dark-src="/public/assets/uploads/logo_lights/logo_light_69cbf7907a240.png" alt="CrashCoupons Logo" height="28">
                     </a>
                     <div class="search-form-wrapper flex-grow-1 mx-2" style="max-width: 500px;">
-                        <form action="/" method="GET" class="position-relative">
-                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search games &amp; coupons..." aria-label="Search" autocomplete="off">
+                        <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
+                            <div class="input-group">
+                                <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search games &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                                <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
+                                    <i class="bi bi-search"></i>
+                                    <div class="spinner-border spinner-border-sm accent d-none" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="search-dropdown" id="searchDropdown"></div>
                         </form>
                     </div>
                     <div class="d-flex align-items-center gap-2">
@@ -436,6 +447,13 @@ brandList.forEach(brand => {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    window.searchTranslations = {
+        noResultsTitle: "No Results Found",
+        noResultsDesc: "Try adjusting your search terms"
+    };
+    </script>
+    <script src="/assets/front/js/main.js"></script>
+    <script>
         const themeToggle = document.getElementById('themeToggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
@@ -504,6 +522,8 @@ const brandsDirectoryHtml = `<!DOCTYPE html>
     <link rel="stylesheet" href="/assets/front/css/colors.css">
     <link rel="stylesheet" href="/assets/front/css/utility.css">
     <link rel="stylesheet" href="/assets/front/css/style.css">
+    <script src="/assets/front/js/coupons-data.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
     <header class="header d-flex align-items-center justify-content-center bg border-b border-light">
@@ -514,8 +534,17 @@ const brandsDirectoryHtml = `<!DOCTYPE html>
                         <img src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" class="theme-logo" data-light-src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" data-dark-src="/public/assets/uploads/logo_lights/logo_light_69cbf7907a240.png" alt="CrashCoupons Logo" height="28">
                     </a>
                     <div class="search-form-wrapper flex-grow-1 mx-2" style="max-width: 500px;">
-                        <form action="/" method="GET" class="position-relative">
-                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search games &amp; coupons..." aria-label="Search" autocomplete="off">
+                        <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
+                            <div class="input-group">
+                                <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search games &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                                <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
+                                    <i class="bi bi-search"></i>
+                                    <div class="spinner-border spinner-border-sm accent d-none" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="search-dropdown" id="searchDropdown"></div>
                         </form>
                     </div>
                     <div class="d-flex align-items-center gap-2">
@@ -571,6 +600,13 @@ const brandsDirectoryHtml = `<!DOCTYPE html>
             </div>
         </div>
     </footer>
+    <script>
+    window.searchTranslations = {
+        noResultsTitle: "No Results Found",
+        noResultsDesc: "Try adjusting your search terms"
+    };
+    </script>
+    <script src="/assets/front/js/main.js"></script>
     <script>
         const themeToggle = document.getElementById('themeToggle');
         if (themeToggle) {

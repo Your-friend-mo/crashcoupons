@@ -18,7 +18,9 @@ const allBrands = sandbox.window.LOCAL_BRANDS || {};
 
 // Extract modal overlay markup from index.html
 const modalOverlayMatch = indexHtml.match(/<div x-data="" x-show="\$store\.couponModal\.isOpen" class="modal-overlay"[\s\S]*?(?=<!-- Foot Scripts -->|<\/body>)/i);
-const modalMarkup = modalOverlayMatch ? modalOverlayMatch[0] : '';
+let modalMarkup = modalOverlayMatch ? modalOverlayMatch[0] : '';
+modalMarkup = modalMarkup.replace(/<script src="[^"]*main\.js"><\/script>/gi, '');
+modalMarkup = modalMarkup.replace(/<script src="[^"]*catalog-ui\.js"><\/script>/gi, '');
 
 // Extract modal script head
 const modalScriptMatch = indexHtml.match(/<script>\s*function getCouponFromUrl\(\)[\s\S]*?<\/script>/i);
@@ -397,11 +399,15 @@ keywordConfigs.forEach(cfg => {
                     <!-- Functional Search Bar -->
                     <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
                         <div class="input-group">
-                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="Search ${kw} &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search ${kw} &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
                             <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
                                 <i class="bi bi-search"></i>
+                                <div class="spinner-border spinner-border-sm accent d-none" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </span>
                         </div>
+                        <div class="search-dropdown" id="searchDropdown"></div>
                     </form>
 
                     <!-- Links & Theme Switcher -->
@@ -630,6 +636,13 @@ keywordConfigs.forEach(cfg => {
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    window.searchTranslations = {
+        noResultsTitle: "No Results Found",
+        noResultsDesc: "Try adjusting your search terms"
+    };
+    </script>
+    <script src="/assets/front/js/main.js"></script>
     <script>
         const themeToggle = document.getElementById('themeToggle');
         if (themeToggle) {
