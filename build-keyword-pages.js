@@ -50,22 +50,13 @@ function getRandomCount(id, min, max) {
 // 8 target keywords
 const keywordConfigs = [
     {
-        keyword: 'crash coupon',
-        slug: 'crash-coupon',
-        file: 'crash-coupon.html',
-        display: 'Crash Coupon',
-        title: 'Crash Coupon – Verified Codes & Promo Deals | CrashCoupons',
-        desc: 'Looking for a verified crash coupon? Discover tested crash coupon deals, game keys, and promo discounts updated daily on CrashCoupons for maximum savings.',
-        startIndex: 0
-    },
-    {
         keyword: 'crash coupons',
         slug: 'crash-coupons',
         file: 'crash-coupons.html',
         display: 'Crash Coupons',
         title: 'Crash Coupons – Verified Promo Codes & Free Deals | CrashCoupons',
         desc: 'Discover active crash coupons, verified game discount codes, and digital keys on CrashCoupons. Browse hand-tested crash coupons updated daily for maximum savings.',
-        startIndex: 16
+        startIndex: 0
     },
     {
         keyword: 'www crashcoupons',
@@ -74,7 +65,7 @@ const keywordConfigs = [
         display: 'www Crashcoupons',
         title: 'www Crashcoupons – Verified Deals & Codes | CrashCoupons',
         desc: 'Visit www crashcoupons for verified coupon promo codes, free game keys, and digital discounts. Official www crashcoupons directory updated daily for savings.',
-        startIndex: 32
+        startIndex: 16
     },
     {
         keyword: 'crashcoupon',
@@ -83,7 +74,7 @@ const keywordConfigs = [
         display: 'Crashcoupon',
         title: 'Crashcoupon – Verified Deals & Promo Codes | CrashCoupons',
         desc: 'Find verified crashcoupon codes, free gaming redeem keys, and discounts on CrashCoupons. Discover tested crashcoupon offers updated daily for guaranteed savings.',
-        startIndex: 48
+        startIndex: 32
     },
     {
         keyword: 'crash coupons com',
@@ -92,16 +83,7 @@ const keywordConfigs = [
         display: 'Crash Coupons Com',
         title: 'Crash Coupons Com – Verified Deals & Codes | CrashCoupons',
         desc: 'Explore crash coupons com for verified promo deals, free game keys, and digital savings. Official crash coupons com discounts hand-tested daily for all gamers.',
-        startIndex: 64
-    },
-    {
-        keyword: 'crashcoupons.com',
-        slug: 'crashcoupons.com',
-        file: 'crashcoupons.com.html',
-        display: 'Crashcoupons.com',
-        title: 'Crashcoupons.com – Verified Codes & Deals | CrashCoupons',
-        desc: 'Welcome to crashcoupons.com for hand-tested coupon codes, digital game keys, and free promo deals. Browse active crashcoupons.com discounts updated daily.',
-        startIndex: 80
+        startIndex: 48
     },
     {
         keyword: 'www crashcoupon con',
@@ -110,7 +92,7 @@ const keywordConfigs = [
         display: 'www Crashcoupon Con',
         title: 'www Crashcoupon Con – Verified Promo Deals | CrashCoupons',
         desc: 'Searching for www crashcoupon con? Find verified promo codes, free game redeem keys, and store discounts. Daily updated www crashcoupon con deals on CrashCoupons.',
-        startIndex: 96
+        startIndex: 64
     },
     {
         keyword: 'crashcoupons com',
@@ -119,6 +101,24 @@ const keywordConfigs = [
         display: 'Crashcoupons Com',
         title: 'Crashcoupons Com – Verified Codes & Deals | CrashCoupons',
         desc: 'Find verified crashcoupons com promo codes, free game keys, and store discounts on CrashCoupons. Browse tested crashcoupons com deals updated daily for savings.',
+        startIndex: 80
+    },
+    {
+        keyword: 'crash coupon',
+        slug: 'crash-coupon',
+        file: 'crash-coupon.html',
+        display: 'Crash Coupon',
+        title: 'Crash Coupon – Verified Codes & Promo Deals | CrashCoupons',
+        desc: 'Looking for a verified crash coupon? Discover tested crash coupon deals, game keys, and promo discounts updated daily on CrashCoupons for maximum savings.',
+        startIndex: 96
+    },
+    {
+        keyword: 'crashcoupons.com',
+        slug: 'crashcoupons.com',
+        file: 'crashcoupons.com.html',
+        display: 'Crashcoupons.com',
+        title: 'Crashcoupons.com – Verified Codes & Deals | CrashCoupons',
+        desc: 'Welcome to crashcoupons.com for hand-tested coupon codes, digital game keys, and free promo deals. Browse active crashcoupons.com discounts updated daily.',
         startIndex: 112
     }
 ];
@@ -238,14 +238,14 @@ keywordConfigs.forEach(cfg => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${cfg.title}</title>
     <meta name="description" content="${cfg.desc}">
-    <meta name="keywords" content="${kw}, ${kwDisplay}, ${kw} codes, ${kw} discounts, ${kw} promo, crash coupon, crash coupons, crashcoupons, verified coupons">
+    <meta name="keywords" content="${kw}, ${kwDisplay}, crashcoupons, crash coupons, verified coupon codes, discounts, promo codes">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${canonicalUrl}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="${canonicalUrl}">
-    <meta property="og:site_name" content="${kwDisplay}">
+    <meta property="og:site_name" content="CrashCoupons">
     <meta property="og:title" content="${cfg.title}">
     <meta property="og:description" content="${cfg.desc}">
     <meta property="og:image" content="https://crashcoupons.online/public/assets/uploads/coupon_banners/coupon_307_fee38f825078c8c1.jpg">
@@ -397,7 +397,7 @@ keywordConfigs.forEach(cfg => {
                     <!-- Functional Search Bar -->
                     <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
                         <div class="input-group">
-                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search ${kw} &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="Search ${kw} &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
                             <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
                                 <i class="bi bi-search"></i>
                             </span>
@@ -472,7 +472,7 @@ keywordConfigs.forEach(cfg => {
                         </div>
 
                         <blockquote class="border-start border-3 border-accent ps-3 my-4 text-third small fst-italic">
-                            “Our verification process ensures that every ${kw} listed on CrashCoupons maintains over 95% working accuracy, giving users the most reliable ${kw} discounts available.”
+                            “Our verification process ensures that every ${kw} listed on CrashCoupons maintains over 95% working accuracy, giving users the most reliable ${kw} discounts available.” 
                             <cite class="d-block mt-1 fw-semibold text not-italic">— ${kwDisplay} Editorial &amp; Verification Team</cite>
                         </blockquote>
                     </div>
@@ -509,11 +509,25 @@ keywordConfigs.forEach(cfg => {
                         </div>
                         <div class="mt-3 p-3 bg-secondary rounded-3 text-third smallest border border-light">
                             <div><i class="bi bi-shield-check text-accent me-1"></i> Editorial Standards: <a href="/about" class="text-accent text-decoration-none">Read Policy</a></div>
-                            <div class="mt-1"><i class="bi bi-clock-history me-1"></i> <time datetime="2026-11-22">Updated: November 22, 2026</time></div>
+                            <div class="mt-1"><i class="bi bi-clock-history me-1"></i> <time datetime="2026-11-23">Updated: November 23, 2026</time></div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!-- Visually Hidden SEO Content for ${kw} -->
+            <div class="visually-hidden" aria-hidden="false">
+                <h3>${kwDisplay} Verified Directory</h3>
+                <p>Welcome to the official source for ${kw} coupons and discount codes. Our editors check ${kw} every day to ensure verified ${kw} codes work seamlessly.</p>
+                <ul>
+                    <li>${kwDisplay} daily promotions</li>
+                    <li>Instant ${kw} code reveal with no survey</li>
+                    <li>Tested ${kw} gaming discounts and product vouchers</li>
+                    <li>Verified ${kw} offers with 100% redemption rate</li>
+                    <li>Exclusive ${kw} community savings and store deals</li>
+                </ul>
+                <p>Save money with our verified ${kw} catalog and enjoy active ${kw} discounts.</p>
+            </div>
         </main>
     </div>
 
@@ -532,7 +546,7 @@ keywordConfigs.forEach(cfg => {
                                     <p class="text-third mb-2">
                                         Dedicated to helping gamers and shoppers save more with verified <strong>${kw}</strong> deals, tested <strong>${kw}</strong> promotions, and exclusive digital discounts.
                                     </p>
-                                    <p class="text-third small mb-0"><i class="bi bi-patch-check-fill text-accent me-1"></i> Curated by the ${kwDisplay} Team • <time datetime="2026-11-22">November 2026</time></p>
+                                    <p class="text-third small mb-0"><i class="bi bi-patch-check-fill text-accent me-1"></i> Curated by the ${kwDisplay} Team • <time datetime="2026-11-23">November 2026</time></p>
                                 </div>
                             </div>
                         </div>
@@ -620,36 +634,37 @@ keywordConfigs.forEach(cfg => {
         const themeToggle = document.getElementById('themeToggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
-                const current = document.documentElement.getAttribute('data-bs-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-bs-theme', next);
-                localStorage.setItem('user_color_mode', next);
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('user_color_mode', newTheme);
             });
         }
     </script>
 </body>
 </html>`;
 
-    // Count occurrences of keyword in generated HTML
-    const escapedKw = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(escapedKw, 'gi');
-    const count = (htmlContent.match(regex) || []).length;
+    const outPath = path.join(baseDir, cfg.file);
+    fs.writeFileSync(outPath, htmlContent, 'utf8');
 
-    fs.writeFileSync(path.join(baseDir, cfg.file), htmlContent, 'utf8');
-    console.log(`Created ${cfg.file} for "${kw}" (Found ${count} occurrences of "${kw}")`);
+    // Count occurrences of kw in the file
+    const escapedKw = kw.replace(/[.*+?^$${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escapedKw, 'gi');
+    const matches = (htmlContent.match(regex) || []).length;
+    console.log(`Created ${cfg.file} for "${kw}" (Found ${matches} occurrences of "${kw}")`);
 });
 
-// Update sitemap.xml to add all new pages
-const sitemapFile = path.join(baseDir, 'sitemap.xml');
-let sitemapContent = fs.readFileSync(sitemapFile, 'utf8');
+// Update sitemap.xml with all pages
+const sitemapPath = path.join(baseDir, 'sitemap.xml');
+let sitemap = fs.readFileSync(sitemapPath, 'utf8');
 
 keywordConfigs.forEach(cfg => {
-    const loc = `https://crashcoupons.online/${cfg.slug}`;
-    if (!sitemapContent.includes(loc)) {
-        const entry = `  <url>\n    <loc>${loc}</loc>\n    <lastmod>2026-11-22</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
-        sitemapContent = sitemapContent.replace('</urlset>', `${entry}</urlset>`);
+    const urlLoc = `https://crashcoupons.online/${cfg.slug}`;
+    if (!sitemap.includes(`<loc>${urlLoc}</loc>`)) {
+        const urlEntry = `  <url>\n    <loc>${urlLoc}</loc>\n    <lastmod>2026-11-23</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>`;
+        sitemap = sitemap.replace('</urlset>', `${urlEntry}\n</urlset>`);
     }
 });
 
-fs.writeFileSync(sitemapFile, sitemapContent, 'utf8');
+fs.writeFileSync(sitemapPath, sitemap, 'utf8');
 console.log('Updated sitemap.xml with all keyword pages');
