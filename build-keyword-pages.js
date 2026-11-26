@@ -14,7 +14,6 @@ vm.createContext(sandbox);
 vm.runInContext(couponsDataCode, sandbox);
 
 const allCoupons = Object.values(sandbox.window.LOCAL_COUPONS || {});
-const allBrands = sandbox.window.LOCAL_BRANDS || {};
 
 // Extract modal overlay markup from index.html
 const modalOverlayMatch = indexHtml.match(/<div x-data="" x-show="\$store\.couponModal\.isOpen" class="modal-overlay"[\s\S]*?(?=<!-- Foot Scripts -->|<\/body>)/i);
@@ -49,15 +48,13 @@ function getRandomCount(id, min, max) {
     return min + seed;
 }
 
-// 8 target keywords
+// Target keywords in order as requested by user
 const keywordConfigs = [
     {
         keyword: 'crash coupons',
         slug: 'crash-coupons',
         file: 'crash-coupons.html',
         display: 'Crash Coupons',
-        title: 'Crash Coupons – Verified Promo Codes & Free Deals | CrashCoupons',
-        desc: 'Discover active crash coupons, verified game discount codes, and digital keys on CrashCoupons. Browse hand-tested crash coupons updated daily for maximum savings.',
         startIndex: 0
     },
     {
@@ -65,8 +62,6 @@ const keywordConfigs = [
         slug: 'www-crashcoupons',
         file: 'www-crashcoupons.html',
         display: 'www Crashcoupons',
-        title: 'www Crashcoupons – Verified Deals & Codes | CrashCoupons',
-        desc: 'Visit www crashcoupons for verified coupon promo codes, free game keys, and digital discounts. Official www crashcoupons directory updated daily for savings.',
         startIndex: 16
     },
     {
@@ -74,8 +69,6 @@ const keywordConfigs = [
         slug: 'crashcoupon',
         file: 'crashcoupon.html',
         display: 'Crashcoupon',
-        title: 'Crashcoupon – Verified Deals & Promo Codes | CrashCoupons',
-        desc: 'Find verified crashcoupon codes, free gaming redeem keys, and discounts on CrashCoupons. Discover tested crashcoupon offers updated daily for guaranteed savings.',
         startIndex: 32
     },
     {
@@ -83,8 +76,6 @@ const keywordConfigs = [
         slug: 'crash-coupons-com',
         file: 'crash-coupons-com.html',
         display: 'Crash Coupons Com',
-        title: 'Crash Coupons Com – Verified Deals & Codes | CrashCoupons',
-        desc: 'Explore crash coupons com for verified promo deals, free game keys, and digital savings. Official crash coupons com discounts hand-tested daily for all gamers.',
         startIndex: 48
     },
     {
@@ -92,8 +83,6 @@ const keywordConfigs = [
         slug: 'www-crashcoupon-con',
         file: 'www-crashcoupon-con.html',
         display: 'www Crashcoupon Con',
-        title: 'www Crashcoupon Con – Verified Promo Deals | CrashCoupons',
-        desc: 'Searching for www crashcoupon con? Find verified promo codes, free game redeem keys, and store discounts. Daily updated www crashcoupon con deals on CrashCoupons.',
         startIndex: 64
     },
     {
@@ -101,8 +90,6 @@ const keywordConfigs = [
         slug: 'crashcoupons-com',
         file: 'crashcoupons-com.html',
         display: 'Crashcoupons Com',
-        title: 'Crashcoupons Com – Verified Codes & Deals | CrashCoupons',
-        desc: 'Find verified crashcoupons com promo codes, free game keys, and store discounts on CrashCoupons. Browse tested crashcoupons com deals updated daily for savings.',
         startIndex: 80
     },
     {
@@ -110,8 +97,6 @@ const keywordConfigs = [
         slug: 'crash-coupon',
         file: 'crash-coupon.html',
         display: 'Crash Coupon',
-        title: 'Crash Coupon – Verified Codes & Promo Deals | CrashCoupons',
-        desc: 'Looking for a verified crash coupon? Discover tested crash coupon deals, game keys, and promo discounts updated daily on CrashCoupons for maximum savings.',
         startIndex: 96
     },
     {
@@ -119,13 +104,11 @@ const keywordConfigs = [
         slug: 'crashcoupons.com',
         file: 'crashcoupons.com.html',
         display: 'Crashcoupons.com',
-        title: 'Crashcoupons.com – Verified Codes & Deals | CrashCoupons',
-        desc: 'Welcome to crashcoupons.com for hand-tested coupon codes, digital game keys, and free promo deals. Browse active crashcoupons.com discounts updated daily.',
         startIndex: 112
     }
 ];
 
-function generateCardHtml(c, kw) {
+function generateCardHtml(c) {
     const title = escapeHtml(decodeHtml(c.coupon_title || ''));
     const rawBrand = c.brand_name ? decodeHtml(c.brand_name) : '';
     const brandName = escapeHtml(rawBrand);
@@ -142,7 +125,7 @@ function generateCardHtml(c, kw) {
     <div class="col">
         <div class="card h-100 coupon-card coupon-card-standard bg hover:bg-secondary rounded-4 border border-light transition-all shadow-sm">
             <div class="banner-section position-relative">
-                <img src="${bannerSrc}" class="card-img-top banner-image" alt="${title} – ${escapeHtml(kw)}" loading="lazy">
+                <img src="${bannerSrc}" class="card-img-top banner-image" alt="${title}" loading="lazy">
                 <div class="position-absolute top-0 start-0 m-3">
                     <div class="rating-badge bg-secondary-lightest backdrop-blur-sm rounded-pill d-flex align-items-center gap-1 py-1 px-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" class="accent">
@@ -181,7 +164,7 @@ function generateCardHtml(c, kw) {
                     <div class="coupons-remaining-wrapper bg-accent-lightest rounded-5 px-3 py-1 d-inline-flex mx-auto mb-2 align-items-center justify-content-center" data-coupon-id="${c.id}">
                         <div class="d-flex align-items-center gap-sm-2 gap-1 small accent">
                             <svg class="icon-rotate" width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.005 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C1.98724 14.4554 1.99502 14.6405 2.01058 15.0105C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21439 20 9.99502 20H14.005C17.7856 20 19.6759 20 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8746 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8746 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.6759 4 17.7856 4 14.005 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M14.005 4H9.99502C6.21439 4 4.32407 4 3.14958 5.17157C2.34091 5.97823 2.08903 7.12339 2.01058 8.98947C1.99502 9.35954 1.98724 9.54458 2.05634 9.66802C2.12545 9.79147 2.40133 9.94554 2.95308 10.2537C3.56586 10.5959 3.98007 11.2497 3.98007 12C3.98007 12.7503 3.56586 13.4041 2.95308 13.7463C2.40133 14.0545 2.12545 14.2085 2.05634 14.332C2.08903 16.8766 2.34091 18.0218 3.14958 18.8284C4.32407 20 6.21439 20 9.99502 20H14.005C17.7856 20 19.6759 20 20.8504 18.8284C21.6591 18.0218 21.911 16.8766 21.9894 15.0105C22.005 14.6405 22.0128 14.4554 21.9437 14.332C21.8746 14.2085 21.5987 14.0545 21.0469 13.7463C20.4341 13.4041 20.0199 12.7503 20.0199 12C20.0199 11.2497 20.4341 10.5959 21.0469 10.2537C21.5987 9.94554 21.8746 9.79147 21.9437 9.66803C22.0128 9.54458 22.005 9.35954 21.9894 8.98947C21.911 7.12339 21.6591 5.97823 20.8504 5.17157C19.6759 4 17.7856 4 14.005 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M9 15L15 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
                                 <path d="M14.5 14.5H14.509" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M9.5 9.5H9.509" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -224,7 +207,40 @@ keywordConfigs.forEach(cfg => {
     const kwDisplay = cfg.display;
     const canonicalUrl = `https://crashcoupons.online/${cfg.slug}`;
     const pageCoupons = allCoupons.slice(cfg.startIndex, cfg.startIndex + 16);
-    const cardsHtml = pageCoupons.map(c => generateCardHtml(c, kwDisplay)).join('\n');
+    const cardsHtml = pageCoupons.map(c => generateCardHtml(c)).join('\n');
+
+    // Exactly 15 occurrences of ${kw}:
+    // 1: <title>
+    // 2: meta description
+    // 3: meta keywords
+    // 4: og:title
+    // 5: og:description
+    // 6: twitter:title
+    // 7: twitter:description
+    // 8: JSON-LD WebPage name
+    // 9: JSON-LD FAQ question
+    // 10: <h1>
+    // 11: <h2> Directory
+    // 12: <h2> FAQ Title
+    // 13: FAQ Intro Paragraph
+    // 14: FAQ How-To Step
+    // 15: Trust Feature Note
+
+    const pageTitle = `${kwDisplay} – Verified Codes & Deals | CrashCoupons`; // #1
+    const metaDesc = `Discover verified ${kw} deals, promo codes, and discounts updated daily for maximum savings.`; // #2
+    const metaKeywords = `${kw}, promo codes, discounts, verified coupons`; // #3
+    const ogTitle = `${kwDisplay} – Verified Promo Codes & Deals`; // #4
+    const ogDesc = `Browse tested ${kw} offers and verified digital savings.`; // #5
+    const twTitle = `${kwDisplay} – Verified Promo Codes & Deals`; // #6
+    const twDesc = `Browse tested ${kw} offers and verified digital savings.`; // #7
+    const schemaWebPageName = `${kwDisplay} – Verified Codes & Deals`; // #8
+    const schemaFaqQuestion = `Where can I find an active ${kw} code?`; // #9
+    const h1Heading = kwDisplay; // #10
+    const h2Directory = `${kwDisplay} Verified Promo Codes Directory`; // #11
+    const h2Faq = `Frequently Asked Questions About ${kwDisplay}`; // #12
+    const faqIntro = `Welcome to our verified directory for <strong>${kw}</strong> offers and digital savings.`; // #13
+    const howToStep = `Select your desired <strong>${kw}</strong> deal and click Get Code to unlock your discount.`; // #14
+    const trustFeature = `Our team verifies every <strong>${kw}</strong> daily for guaranteed savings.`; // #15
 
     const htmlContent = `<!DOCTYPE html>
 <html lang="en" data-bs-theme="light" data-accent-color="a-c-c5">
@@ -238,9 +254,9 @@ keywordConfigs.forEach(cfg => {
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${cfg.title}</title>
-    <meta name="description" content="${cfg.desc}">
-    <meta name="keywords" content="${kw}, ${kwDisplay}, crashcoupons, crash coupons, verified coupon codes, discounts, promo codes">
+    <title>${pageTitle}</title>
+    <meta name="description" content="${metaDesc}">
+    <meta name="keywords" content="${metaKeywords}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${canonicalUrl}">
 
@@ -248,15 +264,15 @@ keywordConfigs.forEach(cfg => {
     <meta property="og:type" content="website">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:site_name" content="CrashCoupons">
-    <meta property="og:title" content="${cfg.title}">
-    <meta property="og:description" content="${cfg.desc}">
+    <meta property="og:title" content="${ogTitle}">
+    <meta property="og:description" content="${ogDesc}">
     <meta property="og:image" content="https://crashcoupons.online/public/assets/uploads/coupon_banners/coupon_307_fee38f825078c8c1.jpg">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="${canonicalUrl}">
-    <meta name="twitter:title" content="${cfg.title}">
-    <meta name="twitter:description" content="${cfg.desc}">
+    <meta name="twitter:title" content="${twTitle}">
+    <meta name="twitter:description" content="${twDesc}">
     <meta name="twitter:image" content="https://crashcoupons.online/public/assets/uploads/coupon_banners/coupon_307_fee38f825078c8c1.jpg">
 
     <!-- Structured Data -->
@@ -268,9 +284,7 @@ keywordConfigs.forEach(cfg => {
           "@type": "WebSite",
           "@id": "${canonicalUrl}#website",
           "url": "${canonicalUrl}",
-          "name": "${kwDisplay}",
-          "alternateName": ["${kw}", "${kwDisplay}", "CrashCoupons"],
-          "description": "${cfg.desc}",
+          "name": "CrashCoupons",
           "publisher": {
             "@type": "Organization",
             "name": "CrashCoupons",
@@ -281,8 +295,8 @@ keywordConfigs.forEach(cfg => {
           "@type": "WebPage",
           "@id": "${canonicalUrl}#webpage",
           "url": "${canonicalUrl}",
-          "name": "${cfg.title}",
-          "description": "${cfg.desc}",
+          "name": "${schemaWebPageName}",
+          "description": "Hand-tested discount codes and promotions updated daily.",
           "isPartOf": {
             "@id": "${canonicalUrl}#website"
           }
@@ -293,69 +307,27 @@ keywordConfigs.forEach(cfg => {
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Where can I find an active ${kw} code?",
+              "name": "${schemaFaqQuestion}",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "You can find every verified ${kw} deal directly on this page. All ${kw} promo codes are tested daily by our editorial staff."
+                "text": "Every deal on this page is tested and verified daily by our editorial staff."
               }
             },
             {
               "@type": "Question",
-              "name": "What is ${kw} and how does it help save money?",
+              "name": "How do I redeem my promo code?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "${kwDisplay} is a dedicated discount directory specifically indexing verified ${kw} offers, free game keys, and promo coupons."
+                "text": "Browse the deals below, click Get Code to open the verification window, and copy your code."
               }
             },
             {
               "@type": "Question",
-              "name": "How do I redeem my ${kw} deal?",
+              "name": "Are these discount codes free to access?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Browse the ${kw} catalog below, select your deal, click Get Code to reveal the verified ${kw} promo code, and paste it at checkout."
+                "text": "Yes, every promotion is 100% free with no registration or payment required."
               }
-            },
-            {
-              "@type": "Question",
-              "name": "Are ${kw} codes completely free to use?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, every single ${kw} coupon code listed is 100% free with no registration, fee, or paid subscription required to access."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How often are new ${kw} promotions updated?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Our team tests and refreshes ${kw} codes every 24 hours, removing expired promotions and adding newly released ${kw} deals."
-              }
-            }
-          ]
-        },
-        {
-          "@type": "HowTo",
-          "@id": "${canonicalUrl}#howto",
-          "name": "How to Unlock and Redeem a Verified ${kwDisplay}",
-          "description": "Step-by-step instructions for unlocking and redeeming tested ${kw} promo codes.",
-          "step": [
-            {
-              "@type": "HowToStep",
-              "position": 1,
-              "name": "Browse ${kwDisplay} Deals",
-              "text": "Browse the active ${kw} offers below and select your game or store."
-            },
-            {
-              "@type": "HowToStep",
-              "position": 2,
-              "name": "Reveal ${kwDisplay} Code",
-              "text": "Click Get Code on your chosen ${kw} deal to open the verification window."
-            },
-            {
-              "@type": "HowToStep",
-              "position": 3,
-              "name": "Redeem ${kwDisplay}",
-              "text": "Copy your unlocked ${kw} code and paste it during checkout for instant savings."
             }
           ]
         }
@@ -399,7 +371,7 @@ keywordConfigs.forEach(cfg => {
                     <!-- Functional Search Bar -->
                     <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
                         <div class="input-group">
-                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search ${kw} &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                            <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search here" aria-label="Search" id="searchInput" autocomplete="off">
                             <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
                                 <i class="bi bi-search"></i>
                                 <div class="spinner-border spinner-border-sm accent d-none" role="status">
@@ -426,114 +398,93 @@ keywordConfigs.forEach(cfg => {
             <!-- All Coupons Section with H1 -->
             <section class="all-coupons-section">
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-sm-4 mb-3">
-                    <h1 class="h3 mb-0 fw-600">${kwDisplay}</h1>
+                    <h1 class="h3 mb-0 fw-600">${h1Heading}</h1>
                     <span class="badge bg-secondary-lightest text px-3 py-2 rounded-pill small">
-                        16 Hand-Tested ${kwDisplay} Offers
+                        16 Hand-Tested Offers
                     </span>
                 </div>
-                <h2 class="visually-hidden">${kwDisplay} Verified Promo Codes &amp; Deals Directory</h2>
+                <h2 class="visually-hidden">${h2Directory}</h2>
                 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-xl-4 g-3">
                     ${cardsHtml}
                 </div>
             </section>
 
-            <!-- Knowledge & FAQ Section with 30+ keyword occurrences -->
+            <!-- Knowledge & FAQ Section with 15 keyword occurrences -->
             <section class="mt-5 pt-4 border-top border-light" id="faq">
                 <div class="row g-4">
                     <div class="col-lg-8">
-                        <h2 class="h4 fw-600 mb-3 text">Frequently Asked Questions About ${kwDisplay}</h2>
-                        <p class="text-third mb-4">
-                            Welcome to the verified directory for <strong>${kw}</strong> deals, promo codes, and gaming savings. Every <strong>${kw}</strong> is hand-tested daily by our team so you can save with working <strong>${kw}</strong> discounts instantly.
-                        </p>
+                        <h2 class="h4 fw-600 mb-3 text">${h2Faq}</h2>
+                        <p class="text-third mb-4">${faqIntro}</p>
 
                         <div class="mb-4">
-                            <h3 class="h6 fw-semibold text mb-1">What is ${kw} and how does it work?</h3>
+                            <h3 class="h6 fw-semibold text mb-1">What is this directory and how does it work?</h3>
                             <p class="text-third small mb-3">
-                                <strong>${kwDisplay}</strong> is an open discount aggregator specifically indexing daily-tested <strong>${kw}</strong> offers. Every <strong>${kw}</strong> is tested against official storefronts and launchers before publication.
+                                Our platform aggregates verified coupon codes and free gaming keys, testing every promotion before publication.
                             </p>
 
-                            <h3 class="h6 fw-semibold text mb-1">Where is the best place to find an active ${kw}?</h3>
+                            <h3 class="h6 fw-semibold text mb-1">Where is the best place to find working codes?</h3>
                             <p class="text-third small mb-3">
-                                You can find every working <strong>${kw}</strong> right here on our dedicated <strong>${kw}</strong> page. We audit every <strong>${kw}</strong> code daily to ensure high redemption rates.
+                                You can find tested promo codes right on this page. All promotions are checked regularly to ensure reliable redemption.
                             </p>
 
-                            <h3 class="h6 fw-semibold text mb-1">How do I redeem my ${kw} promo code?</h3>
-                            <p class="text-third small mb-2">To redeem your <strong>${kw}</strong> deal, follow these 3 quick steps:</p>
+                            <h3 class="h6 fw-semibold text mb-1">How do I redeem my promo code?</h3>
+                            <p class="text-third small mb-2">To redeem your coupon code, follow these quick steps:</p>
                             <ol class="text-third small ps-3 mb-3">
-                                <li>Select your desired game or store from our active <strong>${kw}</strong> catalog.</li>
-                                <li>Click Get Code on the <strong>${kw}</strong> offer card to open the unlock window.</li>
-                                <li>Copy your verified <strong>${kw}</strong> code and apply it during checkout.</li>
+                                <li>${howToStep}</li>
+                                <li>Copy your unlocked code from the reveal modal.</li>
+                                <li>Paste the code during checkout on the official store or launcher.</li>
                             </ol>
 
-                            <h3 class="h6 fw-semibold text mb-1">Are all ${kw} codes free to access?</h3>
+                            <h3 class="h6 fw-semibold text mb-1">Are all codes free to access?</h3>
                             <p class="text-third small mb-3">
-                                Yes, every <strong>${kw}</strong> listed on this page is 100% free with no registration or credit card needed to claim your <strong>${kw}</strong> promotion.
+                                Yes, every code listed here is 100% free with no registration or credit card required.
                             </p>
 
-                            <h3 class="h6 fw-semibold text mb-1">How often are new ${kw} promotions updated?</h3>
+                            <h3 class="h6 fw-semibold text mb-1">How often are promotions updated?</h3>
                             <p class="text-third small mb-0">
-                                Our editorial team updates <strong>${kw}</strong> offers daily, deprecating expired codes and adding fresh <strong>${kw}</strong> keys every 24 hours.
+                                Our editorial team updates offers daily, removing expired deals and adding newly discovered promotions every 24 hours.
                             </p>
                         </div>
-
-                        <blockquote class="border-start border-3 border-accent ps-3 my-4 text-third small fst-italic">
-                            “Our verification process ensures that every ${kw} listed on CrashCoupons maintains over 95% working accuracy, giving users the most reliable ${kw} discounts available.” 
-                            <cite class="d-block mt-1 fw-semibold text not-italic">— ${kwDisplay} Editorial &amp; Verification Team</cite>
-                        </blockquote>
                     </div>
 
                     <div class="col-lg-4">
-                        <h2 class="h5 fw-600 mb-3 text">${kwDisplay} Verification &amp; Feature Comparison</h2>
+                        <h2 class="h5 fw-600 mb-3 text">Verification &amp; Feature Comparison</h2>
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered border-subtle small text-third mb-0">
                                 <thead class="table-secondary">
                                     <tr>
                                         <th>Feature</th>
-                                        <th>${kwDisplay}</th>
+                                        <th>CrashCoupons</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Verification</td>
-                                        <td class="text-accent fw-500">100% Tested ${kwDisplay}</td>
+                                        <td class="text-accent fw-500">100% Hand-Tested</td>
                                     </tr>
                                     <tr>
                                         <td>Sign-up Required</td>
-                                        <td class="text-accent fw-500">None (Free ${kwDisplay})</td>
+                                        <td class="text-accent fw-500">None (Free)</td>
                                     </tr>
                                     <tr>
                                         <td>Update Cadence</td>
-                                        <td class="text-accent fw-500">Daily ${kwDisplay} Audits</td>
+                                        <td class="text-accent fw-500">Daily Audits</td>
                                     </tr>
                                     <tr>
                                         <td>Direct Copy</td>
-                                        <td class="text-accent fw-500">Instant ${kwDisplay} Unlock</td>
+                                        <td class="text-accent fw-500">Instant Unlock</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="mt-3 p-3 bg-secondary rounded-3 text-third smallest border border-light">
                             <div><i class="bi bi-shield-check text-accent me-1"></i> Editorial Standards: <a href="/about" class="text-accent text-decoration-none">Read Policy</a></div>
-                            <div class="mt-1"><i class="bi bi-clock-history me-1"></i> <time datetime="2026-11-23">Updated: November 23, 2026</time></div>
+                            <div class="mt-1"><i class="bi bi-clock-history me-1"></i> <time datetime="2026-11-26">Updated: November 26, 2026</time></div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Visually Hidden SEO Content for ${kw} -->
-            <div class="visually-hidden" aria-hidden="false">
-                <h3>${kwDisplay} Verified Directory</h3>
-                <p>Welcome to the official source for ${kw} coupons and discount codes. Our editors check ${kw} every day to ensure verified ${kw} codes work seamlessly.</p>
-                <ul>
-                    <li>${kwDisplay} daily promotions</li>
-                    <li>Instant ${kw} code reveal with no survey</li>
-                    <li>Tested ${kw} gaming discounts and product vouchers</li>
-                    <li>Verified ${kw} offers with 100% redemption rate</li>
-                    <li>Exclusive ${kw} community savings and store deals</li>
-                </ul>
-                <p>Save money with our verified ${kw} catalog and enjoy active ${kw} discounts.</p>
-            </div>
         </main>
     </div>
 
@@ -548,11 +499,11 @@ keywordConfigs.forEach(cfg => {
                             <div class="footer-branding flex-grow-1">
                                 <img src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" class="footer-logo d-table mb-xm-4 mb-3 theme-logo" data-light-src="/public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" data-dark-src="/public/assets/uploads/logo_lights/logo_light_69cbf7907a240.png" alt="CrashCoupons Logo" height="32">
                                 <div class="footer-about mb-4">
-                                    <h2 class="visually-hidden">About ${kwDisplay} Verified Codes</h2>
+                                    <h2 class="visually-hidden">About Verified Codes</h2>
                                     <p class="text-third mb-2">
-                                        Dedicated to helping gamers and shoppers save more with verified <strong>${kw}</strong> deals, tested <strong>${kw}</strong> promotions, and exclusive digital discounts.
+                                        Dedicated to helping gamers and shoppers save more with verified deals, tested promotions, and exclusive digital discounts.
                                     </p>
-                                    <p class="text-third small mb-0"><i class="bi bi-patch-check-fill text-accent me-1"></i> Curated by the ${kwDisplay} Team • <time datetime="2026-11-23">November 2026</time></p>
+                                    <p class="text-third small mb-0"><i class="bi bi-patch-check-fill text-accent me-1"></i> Tested by the Editorial Team • <time datetime="2026-11-26">November 2026</time></p>
                                 </div>
                             </div>
                         </div>
@@ -560,24 +511,24 @@ keywordConfigs.forEach(cfg => {
 
                     <!-- Column 2: Popular Brands -->
                     <div class="col-lg-4">
-                        <h2 class="h5 footer-title mb-4 fw-semibold">${kwDisplay} Categories</h2>
+                        <h2 class="h5 footer-title mb-4 fw-semibold">Popular Categories</h2>
                         <div class="popular-brands-grid">
                             <a href="/brands/cookie-run-kingdom" class="brand-card mb-2 bg-secondary rounded-3 p-3 d-flex align-items-center gap-3 text-decoration-none">
                                 <div class="brand-info">
                                     <div class="brand-name text fw-500">Cookie Run Kingdom</div>
-                                    <small class="text-third">Active ${kw} deals</small>
+                                    <small class="text-third">Active deals</small>
                                 </div>
                             </a>
                             <a href="/brands/ea-sports-fc-27" class="brand-card mb-2 bg-secondary rounded-3 p-3 d-flex align-items-center gap-3 text-decoration-none">
                                 <div class="brand-info">
                                     <div class="brand-name text fw-500">EA Sports FC 27</div>
-                                    <small class="text-third">Active ${kw} deals</small>
+                                    <small class="text-third">Active deals</small>
                                 </div>
                             </a>
                             <a href="/brands/forza-horizon-5" class="brand-card mb-2 bg-secondary rounded-3 p-3 d-flex align-items-center gap-3 text-decoration-none">
                                 <div class="brand-info">
                                     <div class="brand-name text fw-500">Forza Horizon 5</div>
-                                    <small class="text-third">Active ${kw} deals</small>
+                                    <small class="text-third">Active deals</small>
                                 </div>
                             </a>
                         </div>
@@ -585,24 +536,24 @@ keywordConfigs.forEach(cfg => {
 
                     <!-- Column 3: Trust Features -->
                     <div class="col-lg-4">
-                        <h2 class="h5 footer-title mb-4 fw-semibold">Why Choose ${kwDisplay}?</h2>
+                        <h2 class="h5 footer-title mb-4 fw-semibold">Why Choose CrashCoupons?</h2>
                         <div class="trust-features d-flex flex-column gap-3">
                             <div class="trust-feature d-flex align-items-center gap-3">
                                 <div>
-                                    <h3 class="h6 mb-1 fw-semibold">How do daily ${kw} updates work?</h3>
-                                    <p class="text-third small mb-0">Our team verifies and updates every ${kw} daily for maximum savings.</p>
+                                    <h3 class="h6 mb-1 fw-semibold">Daily Code Verification</h3>
+                                    <p class="text-third small mb-0">${trustFeature}</p>
                                 </div>
                             </div>
                             <div class="trust-feature d-flex align-items-center gap-3">
                                 <div>
-                                    <h3 class="h6 mb-1 fw-semibold">Are ${kw} codes verified?</h3>
-                                    <p class="text-third small mb-0">100% hand-tested ${kw} deals for guaranteed savings.</p>
+                                    <h3 class="h6 mb-1 fw-semibold">Guaranteed Working</h3>
+                                    <p class="text-third small mb-0">100% hand-tested deals for reliable checkout savings.</p>
                                 </div>
                             </div>
                             <div class="trust-feature d-flex align-items-center gap-3">
                                 <div>
-                                    <h3 class="h6 mb-1 fw-semibold">Is ${kw} completely free?</h3>
-                                    <p class="text-third small mb-0">No registration or payment required - claim your ${kw} instantly.</p>
+                                    <h3 class="h6 mb-1 fw-semibold">100% Free Access</h3>
+                                    <p class="text-third small mb-0">No registration or payment required - claim codes instantly.</p>
                                 </div>
                             </div>
                         </div>
@@ -612,7 +563,7 @@ keywordConfigs.forEach(cfg => {
                 <!-- Copyright -->
                 <div class="copyright-wrapper text-center border-top py-3">
                     <p class="mb-2 text-third small">
-                        © 2026 CrashCoupons.com. All rights reserved. • Curated by the ${kwDisplay} Editorial Team
+                        © 2026 CrashCoupons.com. All rights reserved. • Curated by the Editorial Team
                     </p>
                     <div class="footer-links d-flex justify-content-center flex-wrap gap-3 small">
                         <a href="/" class="text-third text-decoration-none">Home</a>
@@ -661,23 +612,8 @@ keywordConfigs.forEach(cfg => {
     fs.writeFileSync(outPath, htmlContent, 'utf8');
 
     // Count occurrences of kw in the file
-    const escapedKw = kw.replace(/[.*+?^$${}()|[\]\\]/g, '\\$&');
+    const escapedKw = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(escapedKw, 'gi');
     const matches = (htmlContent.match(regex) || []).length;
     console.log(`Created ${cfg.file} for "${kw}" (Found ${matches} occurrences of "${kw}")`);
 });
-
-// Update sitemap.xml with all pages
-const sitemapPath = path.join(baseDir, 'sitemap.xml');
-let sitemap = fs.readFileSync(sitemapPath, 'utf8');
-
-keywordConfigs.forEach(cfg => {
-    const urlLoc = `https://crashcoupons.online/${cfg.slug}`;
-    if (!sitemap.includes(`<loc>${urlLoc}</loc>`)) {
-        const urlEntry = `  <url>\n    <loc>${urlLoc}</loc>\n    <lastmod>2026-11-23</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>`;
-        sitemap = sitemap.replace('</urlset>', `${urlEntry}\n</urlset>`);
-    }
-});
-
-fs.writeFileSync(sitemapPath, sitemap, 'utf8');
-console.log('Updated sitemap.xml with all keyword pages');
