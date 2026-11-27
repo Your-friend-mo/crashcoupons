@@ -61,7 +61,21 @@
                     <a class="navbar-brand p-0 flex-shrink-0" href="./">
                         <img src="./public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" class="theme-logo" data-light-src="./public/assets/uploads/logo_darks/logo_dark_69cbf7933898f.png" data-dark-src="./public/assets/uploads/logo_lights/logo_light_69cbf7907a240.png" alt="CrashCoupons Logo" height="28">
                     </a>
-                    <div class="flex-grow-1"></div>
+                    
+                    <div class="search-form-wrapper flex-grow-1 mx-2" style="max-width: 500px;">
+                        <form class="d-flex position-relative flex-grow-1" role="search" id="searchForm" action="/" method="GET">
+                            <div class="input-group">
+                                <input type="search" name="q" class="form-control header-search text-third rounded-3 bg-secondary border border-subtle" placeholder="👉 Search games &amp; coupons..." aria-label="Search" id="searchInput" autocomplete="off">
+                                <span class="search-loader position-absolute end-0 top-50 translate-middle-y pe-sm-3 pe-2">
+                                    <i class="bi bi-search"></i>
+                                    <div class="spinner-border spinner-border-sm accent d-none" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="search-dropdown" id="searchDropdown"></div>
+                        </form>
+                    </div>
                     <a href="./" class="btn btn-sm btn-outline-secondary rounded-pill px-3 me-2">Browse Codes</a>
                     <button class="btn btn-theme-switch btn-link nav-link" id="themeToggle" type="button" aria-label="Toggle theme">
                         <i class="bi bi-sun-fill theme-icon-light" style="font-size: 1.2rem; color: var(--accent);"></i>
@@ -133,5 +147,12 @@
             });
         }
     </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/assets/front/js/coupons-data.js"></script>
+    <script>
+    window.searchTranslations = { noResultsTitle: "No Results Found", noResultsDesc: "Try adjusting your search terms" };
+    </script>
+    <script src="/assets/front/js/main.js"></script>
 </body>
 </html>

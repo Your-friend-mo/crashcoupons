@@ -1,9 +1,14 @@
 # CrashCoupons – Verified Crash Coupon Directory
 
-> CrashCoupons is the verified community directory for finding your next working crash coupon, active crash coupons, free digital game promo codes, and hand-tested shopping discount keys. All coupon codes are hand-tested daily by our editorial team for maximum reliability.
+> CrashCoupons is the verified community directory for finding your next working crash coupon, active crash coupons, free digital game promo codes, and hand-tested shopping discount keys. All 450+ coupon codes across 133 top games and brands are hand-tested daily by our editorial team for guaranteed reliability.
 
 ## Core Directories & Pages
-- [All Crash Coupon & CrashCoupons Deals](https://crashcoupons.online/): Explore hundreds of hand-tested crash coupon deals, game codes, digital discount keys, and store coupons updated daily.
+- [Homepage & Main Catalog](https://crashcoupons.online/): Explore hundreds of hand-tested crash coupon deals, game codes, digital discount keys, and store coupons updated daily.
+- [All 130+ Games & Brands Directory](https://crashcoupons.online/brands): Complete A-Z index of all 133 supported games and online stores.
+- [Trending Deals & Top Games](https://crashcoupons.online/trending): Most popular and rapidly claimed coupon keys today, including Black Myth: Wukong, Zenless Zone Zero, and Marvel Rivals.
+- [Browse by Category](https://crashcoupons.online/categories): Organized category hub for RPGs, Battle Royale, Roblox, Sports, and Gift Cards.
+- [How It Works & 5-Stage Verification Protocol](https://crashcoupons.online/how-it-works): Comprehensive breakdown of our testing methodology and editorial standards.
+- [Frequently Asked Questions (FAQ)](https://crashcoupons.online/faq): Answers to common questions about finding and redeeming discount codes.
 - [Human Verification & Locker](https://crashcoupons.online/adbluemedia-locker.html): Fast verification process to unlock reserved crash coupon codes.
 - [About CrashCoupons & Editorial Policy](https://crashcoupons.online/about.html): How our team reviews, curates, and hand-tests crash coupon keys.
 - [Privacy Policy](https://crashcoupons.online/privacy.html): How CrashCoupons handles data and protects user privacy.
@@ -12,16 +17,17 @@
 
 ## Target Ranking Keywords & Entity Information
 - Site Name: CrashCoupons (CrashCoupons.com)
-- Primary Traffic Keyword: crash coupon
-- Main Brand Keyword: crashcoupons
-- Priority Keywords:
-  1. crash coupon
-  2. crash coupons
-  3. www crashcoupons
-  4. crashcoupon
-  5. crash coupons com
-  6. www crashcoupon con
-  7. crashcoupons com
+- Primary Ranking Keywords:
+  1. crashcoupons (2.0% density on Homepage)
+  2. crash coupons (2.0% density on /crash-coupons)
+  3. www crashcoupons (2.0% density on /www-crashcoupons)
+  4. crashcoupon (2.0% density on /crashcoupon)
+  5. crash coupons com (2.0% density on /crash-coupons-com)
+  6. www crashcoupon con (2.0% density on /www-crashcoupon-con)
+  7. crashcoupons com (2.0% density on /crashcoupons-com)
+  8. crash coupon (2.0% density on /crash-coupon)
+  9. crashcoupons.com (2.0% density on /crashcoupons.com)
+- Featured Titles: Black Myth: Wukong, Zenless Zone Zero, Honkai: Star Rail, Wuthering Waves, Valorant, Brawl Stars, Marvel Rivals, Clash Royale, Minecraft, League of Legends, Counter-Strike 2, GTA Online, PUBG Mobile, Free Fire, Call of Duty: Warzone Mobile, Roblox, Fortnite.
 - Type: Verified Coupon & Promo Code Directory
 - Free Access: Yes, 100% free with no registration required
 - Verification Frequency: Daily (every 24 hours)
